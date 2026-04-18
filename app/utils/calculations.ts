@@ -13,7 +13,7 @@ export interface Settlement {
   amount: number;
 }
 
-interface ExpenseLike {
+export interface ExpenseLike {
   category: string;
   amount: number;
   paidBy: string;

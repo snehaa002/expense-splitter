@@ -6,7 +6,13 @@ import ExpenseForm from '@/app/components/ExpenseForm';
 import ExpenseList from '@/app/components/ExpenseList';
 import BalanceSheet from '@/app/components/BalanceSheet';
 import Insights from '@/app/components/Insights';
-import { getSpendingInsights } from '@/app/utils/calculations';
+import { ExpenseLike, getSpendingInsights } from '@/app/utils/calculations';
+
+interface GroupExpense extends ExpenseLike {
+  _id: string;
+  description: string;
+  createdAt: string;
+}
 
 interface GroupData {
   group: {
@@ -14,7 +20,7 @@ interface GroupData {
     description?: string;
     members: string[];
   };
-  expenses: unknown[];
+  expenses: GroupExpense[];
   balances: Record<string, number>;
   settlements: { from: string; to: string; amount: number }[];
 }
@@ -31,7 +37,7 @@ export default function GroupPage() {
   const groupId = params.id as string;
 
   const [group, setGroup] = useState<GroupData['group'] | null>(null);
-  const [expenses, setExpenses] = useState<unknown[]>([]);
+  const [expenses, setExpenses] = useState<GroupExpense[]>([]);
   const [balances, setBalances] = useState<Record<string, number>>({});
   const [settlements, setSettlements] = useState<{ from: string; to: string; amount: number }[]>([]);
   const [insights, setInsights] = useState<ReturnType<typeof getSpendingInsights> | null>(null);
